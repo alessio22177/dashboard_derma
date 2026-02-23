@@ -1,5 +1,4 @@
 // Next.js Metadata kompatible Datenstruktur
-
 export interface SEOMetadata {
   title: string;
   description: string;
@@ -17,6 +16,12 @@ export interface SEOMetadata {
   schemaCity: string;
   schemaFacebook: string;
   schemaInstagram: string;
+}
+
+export interface MetadataFormData {
+  general: MetadataField[];
+  social: MetadataField[];
+  schema: MetadataField[];
 }
 
 export interface MetadataField {
