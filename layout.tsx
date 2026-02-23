@@ -1,4 +1,4 @@
-import ScrollToTopButton from '@/components/scroll/ScrollToTopButton';
+
 import 'lenis/dist/lenis.css';
 import type { Metadata, Viewport } from 'next';
 import { DM_Sans } from 'next/font/google';
@@ -228,7 +228,6 @@ export default function RootLayout({
         <TransitionProvider>
           <LenisProvider>
             {children}
-            <ScrollToTopButton />
             <CookieConsentBanner />
           </LenisProvider>
         </TransitionProvider>
