@@ -1,5 +1,24 @@
 // Next.js Metadata kompatible Datenstruktur
 
+export interface SEOMetadata {
+  title: string;
+  description: string;
+  keywords: string[];
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  twitterTitle: string;
+  twitterDescription: string;
+  twitterImage: string;
+  schemaName: string;
+  schemaTelephone: string;
+  schemaStreetAddress: string;
+  schemaPostalCode: string;
+  schemaCity: string;
+  schemaFacebook: string;
+  schemaInstagram: string;
+}
+
 export interface MetadataField {
   id: string;
   label: string;
