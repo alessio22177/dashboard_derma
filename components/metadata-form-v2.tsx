@@ -144,16 +144,17 @@ export function MetadataFormV2() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const payload = toNextJsMetadata({
+      // Send raw field data for n8n to generate TypeScript file
+      const rawPayload = {
         general: generalFields,
         social: socialFields,
         schema: schemaFields,
-      });
+      };
 
       const response = await fetch("/api/metadata/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(rawPayload),
       });
 
       if (response.ok) {
