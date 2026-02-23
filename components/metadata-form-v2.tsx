@@ -210,8 +210,9 @@ export function MetadataFormV2() {
                 variant="outline"
                 onClick={handleReset}
                 disabled={saving}
-                className="gap-2 px-3"
+                className="gap-2"
               >
+                Verwerfen
                 <X className="h-4 w-4" />
               </Button>
             )}
