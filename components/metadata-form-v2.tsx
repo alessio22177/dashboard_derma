@@ -16,7 +16,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Loader2, Save, RotateCcw, Globe, Share2, Code } from "lucide-react";
+import { Loader2, Save, X, Globe, Share2, Code } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -109,6 +109,7 @@ export function MetadataFormV2() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [activeTab, setActiveTab] = useState("general");
 
   // Load data from API
@@ -158,6 +159,7 @@ export function MetadataFormV2() {
       if (response.ok) {
         toast.success("Änderungen wurden veröffentlicht");
         setHasChanges(false);
+        setLastSaved(new Date());
       } else {
         throw new Error("Speichern fehlgeschlagen");
       }
@@ -195,7 +197,11 @@ export function MetadataFormV2() {
           <div>
             <h2 className="text-lg font-semibold text-slate-900">SEO Metadaten</h2>
             <p className="text-sm text-slate-500">
-              {hasChanges ? "Ungespeicherte Änderungen" : "Alle Änderungen gespeichert"}
+              {hasChanges
+                ? "Ungespeicherte Änderungen"
+                : lastSaved
+                  ? `Zuletzt synchronisiert: ${lastSaved.toLocaleTimeString("de-DE")}`
+                  : "Alle Änderungen gespeichert"}
             </p>
           </div>
           <div className="flex gap-2">
@@ -204,10 +210,9 @@ export function MetadataFormV2() {
                 variant="outline"
                 onClick={handleReset}
                 disabled={saving}
-                className="gap-2"
+                className="gap-2 px-3"
               >
-                <RotateCcw className="h-4 w-4" />
-                Verwerfen
+                <X className="h-4 w-4" />
               </Button>
             )}
             <Button
@@ -218,12 +223,12 @@ export function MetadataFormV2() {
               {saving ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Speichern...
+                  Synchronisieren...
                 </>
               ) : (
                 <>
                   <Save className="h-4 w-4" />
-                  Speichern
+                  Synchronisieren
                 </>
               )}
             </Button>
