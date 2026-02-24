@@ -189,3 +189,4 @@ Für die Entwicklung ohne n8n werden Mock-Daten verwendet (`lib/mock-metadata.ts
 ## Lizenz
 
 Proprietär - Dermastil
+ 
