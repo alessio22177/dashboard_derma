@@ -1,252 +1,158 @@
-// Next.js Metadata kompatible Datenstruktur
-export interface SEOMetadata {
-  title: string;
-  description: string;
-  keywords: string[];
-  ogTitle: string;
-  ogDescription: string;
-  ogImage: string;
-  twitterTitle: string;
-  twitterDescription: string;
-  twitterImage: string;
-  schemaName: string;
-  schemaTelephone: string;
-  schemaStreetAddress: string;
-  schemaPostalCode: string;
-  schemaCity: string;
-  schemaFacebook: string;
-  schemaInstagram: string;
-}
-
-export interface MetadataFormData {
-  general: MetadataField[];
-  social: MetadataField[];
-  schema: MetadataField[];
-}
-
-export interface MetadataField {
-  id: string;
-  label: string;
-  type: FieldType;
-  value: any;
-  placeholder?: string;
-  helpText?: string;
-  maxLength?: number;
-  required?: boolean;
-  options?: string[];
-  isCustom?: boolean;
-}
-
-export type FieldType =
-  | "text"
-  | "textarea"
-  | "url"
-  | "image"
-  | "keywords"
-  | "boolean"
-  | "json"
-  | "select"
-  | "number"
-  | "email";
-
-export const DEFAULT_GENERAL_FIELDS: MetadataField[] = [
-  {
-    id: "title",
-    label: "Seitentitel",
-    type: "text",
-    value: "Dermastil Kosmetikstudio Hamburg",
-    placeholder: "Titel der Seite",
-    helpText: "Wird im Browser-Tab und in Suchergebnissen angezeigt",
-  },
-  {
-    id: "description",
-    label: "Meta Beschreibung",
-    type: "textarea",
-    value: "Kosmetikstudio in Hamburg – Gesichtsbehandlungen, Laser & IPL Haarentfernung, Waxing, Maniküre & Pediküre, Head Spa, Wimpernlifting und Schulungen. Jetzt online Termin buchen.",
-    placeholder: "Kurze Beschreibung für Google...",
-    helpText: "Maximal 160 Zeichen empfohlen",
-  },
-  {
-    id: "canonical",
-    label: "Canonical URL",
-    type: "url",
-    value: "https://dermastil.de/",
-    placeholder: "https://...",
-    helpText: "Die offizielle URL dieser Seite (für Duplicate Content)",
-  },
-  {
-    id: "language",
-    label: "Sprache",
-    type: "select",
-    value: "de-DE",
-    options: ["de-DE", "de-CH", "de-AT", "en-US", "en-GB"],
-    helpText: "Sprache der Website",
-  },
-];
-
-export const DEFAULT_SOCIAL_FIELDS: MetadataField[] = [
-  // OpenGraph - Hauptbild für alle Social Media
-  {
-    id: "ogImage",
-    label: "Social Media Bild",
-    type: "image",
-    value: "https://dermastil.de/Dermastil20200911.png",
-    helpText: "Wird auf Facebook, LinkedIn, WhatsApp, etc. angezeigt. Empfohlen: 1200 x 630 Pixel",
-  },
-  // Titel und Beschreibung
-  {
-    id: "ogTitle",
-    label: "Titel",
-    type: "text",
-    value: "Dermastil Kosmetikstudio Hamburg",
-    placeholder: "Titel für Social Media",
-    helpText: "Wird angezeigt wenn jemand den Link teilt",
-  },
-  {
-    id: "ogDescription",
-    label: "Beschreibung",
-    type: "textarea",
-    value: "Kosmetikstudio in Hamburg – Gesichtsbehandlungen, Laser & IPL Haarentfernung, Waxing, Maniküre & Pediküre, Head Spa, Wimpernlifting und Schulungen. Jetzt online Termin buchen.",
-    placeholder: "Kurze Beschreibung...",
-  },
-  // Website Info
-  {
-    id: "ogSiteName",
-    label: "Website Name",
-    type: "text",
-    value: "Dermastil",
-    helpText: "Name der Website (erscheint unter dem Titel)",
-  },
-  // Social Profile Links - einfache Liste
-  {
-    id: "socialLinks",
-    label: "Social Media Profile",
-    type: "keywords",
-    value: ["https://www.facebook.com/dermastil/", "https://www.instagram.com/dermastil_kosmetik/"],
-    placeholder: "https://...",
-    helpText: "Links zu Facebook, Instagram, TikTok, LinkedIn, etc.",
-  },
-];
-
-export const DEFAULT_SCHEMA_FIELDS: MetadataField[] = [
-  {
-    id: "schemaType",
-    label: "Schema Type",
-    type: "select",
-    value: "BeautySalon",
-    options: ["BeautySalon", "MedicalBusiness", "LocalBusiness", "HairSalon", "NailSalon"],
-  },
-  {
-    id: "schemaName",
-    label: "Business Name",
-    type: "text",
-    value: "Dermastil Kosmetikstudio Hamburg",
-  },
-  {
-    id: "schemaUrl",
-    label: "Website URL",
-    type: "url",
-    value: "https://dermastil.de/",
-  },
-  {
-    id: "schemaTelephone",
-    label: "Telefon",
-    type: "text",
-    value: "+49-40-89067950",
-  },
-  {
-    id: "schemaEmail",
-    label: "E-Mail",
-    type: "email",
-    value: "",
-    placeholder: "info@dermastil.de",
-  },
-  {
-    id: "schemaStreetAddress",
-    label: "Straße",
-    type: "text",
-    value: "Ottenser Hauptstraße 17, Eingang Stangestr. 6 (3. Stock)",
-  },
-  {
-    id: "schemaPostalCode",
-    label: "PLZ",
-    type: "text",
-    value: "22765",
-  },
-  {
-    id: "schemaCity",
-    label: "Ort",
-    type: "text",
-    value: "Hamburg",
-  },
-  {
-    id: "schemaCountry",
-    label: "Land",
-    type: "select",
-    value: "DE",
-    options: ["DE", "CH", "AT"],
-  },
-];
-
-export const AVAILABLE_FIELD_TYPES = [
-  { type: "text" as FieldType, label: "Text", icon: "Type" },
-  { type: "textarea" as FieldType, label: "Textarea", icon: "AlignLeft" },
-  { type: "url" as FieldType, label: "URL", icon: "Link" },
-  { type: "image" as FieldType, label: "Bild-URL", icon: "Image" },
-  { type: "keywords" as FieldType, label: "Keywords", icon: "Tags" },
-  { type: "boolean" as FieldType, label: "Ja/Nein", icon: "ToggleLeft" },
-  { type: "json" as FieldType, label: "JSON", icon: "Code" },
-  { type: "select" as FieldType, label: "Auswahl", icon: "List" },
-  { type: "number" as FieldType, label: "Zahl", icon: "Hash" },
-  { type: "email" as FieldType, label: "E-Mail", icon: "Mail" },
-];
-
-export function toNextJsMetadata(data: {
-  general: MetadataField[];
-  social: MetadataField[];
-  schema: MetadataField[];
-}) {
-  const get = (fields: MetadataField[], id: string) =>
-    fields.find((f) => f.id === id)?.value;
-
-  return {
-    title: get(data.general, "title"),
-    description: get(data.general, "description"),
-    robots: {
-      index: true,
-      follow: true,
-    },
-    alternates: { canonical: get(data.general, "canonical") },
-    openGraph: {
-      title: get(data.social, "ogTitle"),
-      description: get(data.social, "ogDescription"),
-      url: get(data.social, "ogUrl"),
-      siteName: get(data.social, "ogSiteName"),
-      images: get(data.social, "ogImage") ? [{ url: get(data.social, "ogImage") }] : undefined,
-      locale: get(data.general, "language") || "de-CH",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: get(data.social, "ogTitle"),
-      description: get(data.social, "ogDescription"),
-      images: get(data.social, "ogImage") ? [get(data.social, "ogImage")] : undefined,
-    },
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": get(data.schema, "schemaType") || "BeautySalon",
-      name: get(data.schema, "schemaName"),
-      url: get(data.schema, "schemaUrl"),
-      telephone: get(data.schema, "schemaTelephone"),
-      email: get(data.schema, "schemaEmail"),
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: get(data.schema, "schemaStreetAddress"),
-        addressLocality: get(data.schema, "schemaCity"),
-        postalCode: get(data.schema, "schemaPostalCode"),
-        addressCountry: get(data.schema, "schemaCountry") || "CH",
-      },
-      sameAs: get(data.social, "socialLinks") || [],
-    },
-    _raw: data,
-  };
-}
+Ly8gTmV4dC5qcyBNZXRhZGF0YSBrb21wYXRpYmxlIERhdGVuc3RydWt0dXIK
+ZXhwb3J0IGludGVyZmFjZSBTRU9NZXRhZGF0YSB7CiAgdGl0bGU6IHN0cmlu
+ZzsKICBkZXNjcmlwdGlvbjogc3RyaW5nOwogIGtleXdvcmRzOiBzdHJpbmdb
+XTsKICBvZ1RpdGxlOiBzdHJpbmc7CiAgb2dEZXNjcmlwdGlvbjogc3RyaW5n
+OwogIG9nSW1hZ2U6IHN0cmluZzsKICB0d2l0dGVyVGl0bGU6IHN0cmluZzsK
+ICB0d2l0dGVyRGVzY3JpcHRpb246IHN0cmluZzsKICB0d2l0dGVySW1hZ2U6
+IHN0cmluZzsKICBzY2hlbWFOYW1lOiBzdHJpbmc7CiAgc2NoZW1hVGVsZXBo
+b25lOiBzdHJpbmc7CiAgc2NoZW1hU3RyZWV0QWRkcmVzczogc3RyaW5nOwog
+IHNjaGVtYVBvc3RhbENvZGU6IHN0cmluZzsKICBzY2hlbWFDaXR5OiBzdHJp
+bmc7CiAgc2NoZW1hRmFjZWJvb2s6IHN0cmluZzsKICBzY2hlbWFJbnN0YWdy
+YW06IHN0cmluZzsKfQoKZXhwb3J0IGludGVyZmFjZSBNZXRhZGF0YUZvcm1E
+YXRhIHsKICBnZW5lcmFsOiBNZXRhZGF0YUZpZWxkW107CiAgc29jaWFsOiBN
+ZXRhZGF0YUZpZWxkW107CiAgc2NoZW1hOiBNZXRhZGF0YUZpZWxkW107Cn0K
+CmV4cG9ydCBpbnRlcmZhY2UgTWV0YWRhdGFGaWVsZCB7CiAgaWQ6IHN0cmlu
+ZzsKICBsYWJlbDogc3RyaW5nOwogIHR5cGU6IEZpZWxkVHlwZTsKICB2YWx1
+ZTogYW55OwogIHBsYWNlaG9sZGVyPzogc3RyaW5nOwogIGhlbHBUZXh0Pzog
+c3RyaW5nOwogIG1heExlbmd0aD86IG51bWJlcjsKICByZXF1aXJlZD86IGJv
+b2xlYW47CiAgb3B0aW9ucz86IHN0cmluZ1tdOwogIGlzQ3VzdG9tPzogYm9v
+bGVhbjsKfQoKZXhwb3J0IHR5cGUgRmllbGRUeXBlID0KICB8ICJ0ZXh0Igog
+IHwgInRleHRhcmVhIgogIHwgInVybCIKICB8ICJpbWFnZSIKICB8ICJrZXl3
+b3JkcyIKICB8ICJib29sZWFuIgogIHwgImpzb24iCiAgfCAic2VsZWN0Igog
+IHwgIm51bWJlciIKICB8ICJlbWFpbCI7CgpleHBvcnQgY29uc3QgREVGQVVM
+VF9HRU5FUkFMX0ZJRUxEUzogTWV0YWRhdGFGaWVsZFtdID0gWwogIHsKICAg
+IGlkOiAidGl0bGUiLAogICAgbGFiZWw6ICJTZWl0ZW50aXRlbCIsCiAgICB0
+eXBlOiAidGV4dCIsCiAgICB2YWx1ZTogIkRlcm1hc3RpbCBLb3NtZXRpa3N0
+dWRpbyBIYW1idXJnIiwKICAgIHBsYWNlaG9sZGVyOiAiVGl0ZWwgZGVyIFNl
+aXRlIiwKICAgIGhlbHBUZXh0OiAiV2lyZCBpbSBCcm93c2VyLVRhYiB1bmQg
+aW4gU3VjaGVyZ2Vibmlzc2VuIGFuZ2V6ZWlndCIsCiAgfSwKICB7CiAgICBp
+ZDogImRlc2NyaXB0aW9uIiwKICAgIGxhYmVsOiAiTWV0YSBCZXNjaHJlaWJ1
+bmciLAogICAgdHlwZTogInRleHRhcmVhIiwKICAgIHZhbHVlOiAiS29zbWV0
+aWtzdHVkaW8gaW4gSGFtYnVyZyDigJMgR2VzaWNodHNiZWhhbmRsdW5nZW4s
+IExhc2VyICYgSVBMIEhhYXJlbnRmZXJudW5nLCBXYXhpbmcsIE1hbmlrw7xy
+ZSAmIFBlZGlrw7xyZSwgSGVhZCBTcGEsIFdpbXBlcm5saWZ0aW5nIHVuZCBT
+Y2h1bHVuZ2VuLiBKZXR6dCBvbmxpbmUgVGVybWluIGJ1Y2hlbi4iLAogICAg
+cGxhY2Vob2xkZXI6ICJLdXJ6ZSBCZXNjaHJlaWJ1bmcgZsO8ciBHb29nbGUu
+Li4iLAogICAgaGVscFRleHQ6ICJNYXhpbWFsIDE2MCBaZWljaGVuIGVtcGZv
+aGxlbiIsCiAgfSwKICB7CiAgICBpZDogImNhbm9uaWNhbCIsCiAgICBsYWJl
+bDogIkNhbm9uaWNhbCBVUkwiLAogICAgdHlwZTogInVybCIsCiAgICB2YWx1
+ZTogImh0dHBzOi8vZGVybWFzdGlsLmRlLyIsCiAgICBwbGFjZWhvbGRlcjog
+Imh0dHBzOi8vLi4uIiwKICAgIGhlbHBUZXh0OiAiRGllIG9mZml6aWVsbGUg
+VVJMIGRpZXNlciBTZWl0ZSAoZsO8ciBEdXBsaWNhdGUgQ29udGVudCkiLAog
+IH0sCiAgewogICAgaWQ6ICJsYW5ndWFnZSIsCiAgICBsYWJlbDogIlNwcmFj
+aGUiLAogICAgdHlwZTogInNlbGVjdCIsCiAgICB2YWx1ZTogImRlLURFIiwK
+ICAgIG9wdGlvbnM6IFsiZGUtREUiLCAiZGUtQ0giLCAiZGUtQVQiLCAiZW4t
+VVMiLCAiZW4tR0IiXSwKICAgIGhlbHBUZXh0OiAiU3ByYWNoZSBkZXIgV2Vi
+c2l0ZSIsCiAgfSwKXTsKCmV4cG9ydCBjb25zdCBERUZBVUxUX1NPQ0lBTF9G
+SUVMRFM6IE1ldGFkYXRhRmllbGRbXSA9IFsKICAvLyBPcGVuR3JhcGggLSBI
+YXVwdGJpbGQgZsO8ciBhbGxlIFNvY2lhbCBNZWRpYQogIHsKICAgIGlkOiAi
+b2dJbWFnZSIsCiAgICBsYWJlbDogIlNvY2lhbCBNZWRpYSBCaWxkIiwKICAg
+IHR5cGU6ICJpbWFnZSIsCiAgICB2YWx1ZTogImh0dHBzOi8vZGVybWFzdGls
+LmRlL0Rlcm1hc3RpbDIwMjAwOTExLnBuZyIsCiAgICBoZWxwVGV4dDogIldp
+cmQgYXVmIEZhY2Vib29rLCBMaW5rZWRJbiwgV2hhdHNBcHAsIGV0Yy4gYW5n
+ZXplaWd0LiBFbXBmb2hsZW46IDEyMDAgeCA2MzAgUGl4ZWwiLAogIH0sCiAg
+Ly8gVGl0ZWwgdW5kIEJlc2NocmVpYnVuZwogIHsKICAgIGlkOiAib2dUaXRs
+ZSIsCiAgICBsYWJlbDogIlRpdGVsIiwKICAgIHR5cGU6ICJ0ZXh0IiwKICAg
+IHZhbHVlOiAiRGVybWFzdGlsIEtvc21ldGlrc3R1ZGlvIEhhbWJ1cmciLAog
+ICAgcGxhY2Vob2xkZXI6ICJUaXRlbCBmw7xyIFNvY2lhbCBNZWRpYSIsCiAg
+ICBoZWxwVGV4dDogIldpcmQgYW5nZXplaWd0IHdlbm4gamVtYW5kIGRlbiBM
+aW5rIHRlaWx0IiwKICB9LAogIHsKICAgIGlkOiAib2dEZXNjcmlwdGlvbiIs
+CiAgICBsYWJlbDogIkJlc2NocmVpYnVuZyIsCiAgICB0eXBlOiAidGV4dGFy
+ZWEiLAogICAgdmFsdWU6ICJLb3NtZXRpa3N0dWRpbyBpbiBIYW1idXJnIOKA
+kyBHZXNpY2h0c2JlaGFuZGx1bmdlbiwgTGFzZXIgJiBJUEwgSGFhcmVudGZl
+cm51bmcsIFdheGluZywgTWFuaWvDvHJlICYgUGVkaWvDvHJlLCBIZWFkIFNw
+YSwgV2ltcGVybmxpZnRpbmcgdW5kIFNjaHVsdW5nZW4uIEpldHp0IG9ubGlu
+ZSBUZXJtaW4gYnVjaGVuLiIsCiAgICBwbGFjZWhvbGRlcjogIkt1cnplIEJl
+c2NocmVpYnVuZy4uLiIsCiAgfSwKICAvLyBXZWJzaXRlIEluZm8KICB7CiAg
+ICBpZDogIm9nU2l0ZU5hbWUiLAogICAgbGFiZWw6ICJXZWJzaXRlIE5hbWUi
+LAogICAgdHlwZTogInRleHQiLAogICAgdmFsdWU6ICJEZXJtYXN0aWwiLAog
+ICAgaGVscFRleHQ6ICJOYW1lIGRlciBXZWJzaXRlIChlcnNjaGVpbnQgdW50
+ZXIgZGVtIFRpdGVsKSIsCiAgfSwKICAvLyBTb2NpYWwgUHJvZmlsZSBMaW5r
+cyAtIGVpbmZhY2hlIExpc3RlCiAgewogICAgaWQ6ICJzb2NpYWxMaW5rcyIs
+CiAgICBsYWJlbDogIlNvY2lhbCBNZWRpYSBQcm9maWxlIiwKICAgIHR5cGU6
+ICJrZXl3b3JkcyIsCiAgICB2YWx1ZTogWyJodHRwczovL3d3dy5mYWNlYm9v
+ay5jb20vZGVybWFzdGlsLyIsICJodHRwczovL3d3dy5pbnN0YWdyYW0uY29t
+L2Rlcm1hc3RpbF9rb3NtZXRpay8iXSwKICAgIHBsYWNlaG9sZGVyOiAiaHR0
+cHM6Ly8uLi4iLAogICAgaGVscFRleHQ6ICJMaW5rcyB6dSBGYWNlYm9vaywg
+SW5zdGFncmFtLCBUaWtUb2ssIExpbmtlZEluLCBldGMuIiwKICB9LApdOwoK
+ZXhwb3J0IGNvbnN0IERFRkFVTFRfU0NIRU1BX0ZJRUxEUzogTWV0YWRhdGFG
+aWVsZFtdID0gWwogIHsKICAgIGlkOiAic2NoZW1hVHlwZSIsCiAgICBsYWJl
+bDogIlNjaGVtYSBUeXBlIiwKICAgIHR5cGU6ICJzZWxlY3QiLAogICAgdmFs
+dWU6ICJCZWF1dHlTYWxvbiIsCiAgICBvcHRpb25zOiBbIkJlYXV0eVNhbG9u
+IiwgIk1lZGljYWxCdXNpbmVzcyIsICJMb2NhbEJ1c2luZXNzIiwgIkhhaXJT
+YWxvbiIsICJOYWlsU2Fsb24iXSwKICB9LAogIHsKICAgIGlkOiAic2NoZW1h
+TmFtZSIsCiAgICBsYWJlbDogIkJ1c2luZXNzIE5hbWUiLAogICAgdHlwZTog
+InRleHQiLAogICAgdmFsdWU6ICJEZXJtYXN0aWwgS29zbWV0aWtzdHVkaW8g
+SGFtYnVyZyIsCiAgfSwKICB7CiAgICBpZDogInNjaGVtYVVybCIsCiAgICBs
+YWJlbDogIldlYnNpdGUgVVJMIiwKICAgIHR5cGU6ICJ1cmwiLAogICAgdmFs
+dWU6ICJodHRwczovL2Rlcm1hc3RpbC5kZS8iLAogIH0sCiAgewogICAgaWQ6
+ICJzY2hlbWFUZWxlcGhvbmUiLAogICAgbGFiZWw6ICJUZWxlZm9uIiwKICAg
+IHR5cGU6ICJ0ZXh0IiwKICAgIHZhbHVlOiAiKzQ5LTQwLTg5MDY3OTUwIiwK
+ICB9LAogIHsKICAgIGlkOiAic2NoZW1hRW1haWwiLAogICAgbGFiZWw6ICJF
+LU1haWwiLAogICAgdHlwZTogImVtYWlsIiwKICAgIHZhbHVlOiAiIiwKICAg
+IHBsYWNlaG9sZGVyOiAiaW5mb0BkZXJtYXN0aWwuZGUiLAogIH0sCiAgewog
+ICAgaWQ6ICJzY2hlbWFTdHJlZXRBZGRyZXNzIiwKICAgIGxhYmVsOiAiU3Ry
+YcOfZSIsCiAgICB0eXBlOiAidGV4dCIsCiAgICB2YWx1ZTogIk90dGVuc2Vy
+IEhhdXB0c3RyYcOfZSAxNywgRWluZ2FuZyBTdGFuZ2VzdHIuIDYgKDMuIFN0
+b2NrKSIsCiAgfSwKICB7CiAgICBpZDogInNjaGVtYVBvc3RhbENvZGUiLAog
+ICAgbGFiZWw6ICJQTFoiLAogICAgdHlwZTogInRleHQiLAogICAgdmFsdWU6
+ICIyMjc2NSIsCiAgfSwKICB7CiAgICBpZDogInNjaGVtYUNpdHkiLAogICAg
+bGFiZWw6ICJPcnQiLAogICAgdHlwZTogInRleHQiLAogICAgdmFsdWU6ICJI
+YW1idXJnIiwKICB9LAogIHsKICAgIGlkOiAic2NoZW1hQ291bnRyeSIsCiAg
+ICBsYWJlbDogIkxhbmQiLAogICAgdHlwZTogInNlbGVjdCIsCiAgICB2YWx1
+ZTogIkRFIiwKICAgIG9wdGlvbnM6IFsiREUiLCAiQ0giLCAiQVQiXSwKICB9
+LApdOwoKZXhwb3J0IGNvbnN0IEFWQUlMQUJMRV9GSUVMRF9UWVBFUyA9IFsK
+ICB7IHR5cGU6ICJ0ZXh0IiBhcyBGaWVsZFR5cGUsIGxhYmVsOiAiVGV4dCIs
+IGljb246ICJUeXBlIiB9LAogIHsgdHlwZTogInRleHRhcmVhIiBhcyBGaWVs
+ZFR5cGUsIGxhYmVsOiAiVGV4dGFyZWEiLCBpY29uOiAiQWxpZ25MZWZ0IiB9
+LAogIHsgdHlwZTogInVybCIgYXMgRmllbGRUeXBlLCBsYWJlbDogIlVSTCIs
+IGljb246ICJMaW5rIiB9LAogIHsgdHlwZTogImltYWdlIiBhcyBGaWVsZFR5
+cGUsIGxhYmVsOiAiQmlsZC1VUkwiLCBpY29uOiAiSW1hZ2UiIH0sCiAgeyB0
+eXBlOiAia2V5d29yZHMiIGFzIEZpZWxkVHlwZSwgbGFiZWw6ICJLZXl3b3Jk
+cyIsIGljb246ICJUYWdzIiB9LAogIHsgdHlwZTogImJvb2xlYW4iIGFzIEZp
+ZWxkVHlwZSwgbGFiZWw6ICJKYS9OZWluIiwgaWNvbjogIlRvZ2dsZUxlZnQi
+IH0sCiAgeyB0eXBlOiAianNvbiIgYXMgRmllbGRUeXBlLCBsYWJlbDogIkpT
+T04iLCBpY29uOiAiQ29kZSIgfSwKICB7IHR5cGU6ICJzZWxlY3QiIGFzIEZp
+ZWxkVHlwZSwgbGFiZWw6ICJBdXN3YWhsIiwgaWNvbjogIkxpc3QiIH0sCiAg
+eyB0eXBlOiAibnVtYmVyIiBhcyBGaWVsZFR5cGUsIGxhYmVsOiAiWmFobCIs
+IGljb246ICJIYXNoIiB9LAogIHsgdHlwZTogImVtYWlsIiBhcyBGaWVsZFR5
+cGUsIGxhYmVsOiAiRS1NYWlsIiwgaWNvbjogIk1haWwiIH0sCl07CgpleHBv
+cnQgZnVuY3Rpb24gdG9OZXh0SnNNZXRhZGF0YShkYXRhOiB7CiAgZ2VuZXJh
+bDogTWV0YWRhdGFGaWVsZFtdOwogIHNvY2lhbDogTWV0YWRhdGFGaWVsZFtd
+OwogIHNjaGVtYTogTWV0YWRhdGFGaWVsZFtdOwp9KSB7CiAgY29uc3QgZ2V0
+ID0gKGZpZWxkczogTWV0YWRhdGFGaWVsZFtdLCBpZDogc3RyaW5nKSA9Pgog
+ICAgZmllbGRzLmZpbmQoKGYpID0+IGYuaWQgPT09IGlkKT8udmFsdWU7Cgog
+IHJldHVybiB7CiAgICB0aXRsZTogZ2V0KGRhdGEuZ2VuZXJhbCwgInRpdGxl
+IiksCiAgICBkZXNjcmlwdGlvbjogZ2V0KGRhdGEuZ2VuZXJhbCwgImRlc2Ny
+aXB0aW9uIiksCiAgICByb2JvdHM6IHsKICAgICAgaW5kZXg6IHRydWUsCiAg
+ICAgIGZvbGxvdzogdHJ1ZSwKICAgIH0sCiAgICBhbHRlcm5hdGVzOiB7IGNh
+bm9uaWNhbDogZ2V0KGRhdGEuZ2VuZXJhbCwgImNhbm9uaWNhbCIpIH0sCiAg
+ICBvcGVuR3JhcGg6IHsKICAgICAgdGl0bGU6IGdldChkYXRhLnNvY2lhbCwg
+Im9nVGl0bGUiKSwKICAgICAgZGVzY3JpcHRpb246IGdldChkYXRhLnNvY2lh
+bCwgIm9nRGVzY3JpcHRpb24iKSwKICAgICAgdXJsOiBnZXQoZGF0YS5zb2Np
+YWwsICJvZ1VybCIpLAogICAgICBzaXRlTmFtZTogZ2V0KGRhdGEuc29jaWFs
+LCAib2dTaXRlTmFtZSIpLAogICAgICBpbWFnZXM6IGdldChkYXRhLnNvY2lh
+bCwgIm9nSW1hZ2UiKSA/IFt7IHVybDogZ2V0KGRhdGEuc29jaWFsLCAib2dJ
+bWFnZSIpIH1dIDogdW5kZWZpbmVkLAogICAgICBsb2NhbGU6IGdldChkYXRh
+LmdlbmVyYWwsICJsYW5ndWFnZSIpIHx8ICJkZS1DSCIsCiAgICB9LAogICAg
+dHdpdHRlcjogewogICAgICBjYXJkOiAic3VtbWFyeV9sYXJnZV9pbWFnZSIs
+CiAgICAgIHRpdGxlOiBnZXQoZGF0YS5zb2NpYWwsICJvZ1RpdGxlIiksCiAg
+ICAgIGRlc2NyaXB0aW9uOiBnZXQoZGF0YS5zb2NpYWwsICJvZ0Rlc2NyaXB0
+aW9uIiksCiAgICAgIGltYWdlczogZ2V0KGRhdGEuc29jaWFsLCAib2dJbWFn
+ZSIpID8gW2dldChkYXRhLnNvY2lhbCwgIm9nSW1hZ2UiKV0gOiB1bmRlZmlu
+ZWQsCiAgICB9LAogICAganNvbkxkOiB7CiAgICAgICJAY29udGV4dCI6ICJo
+dHRwczovL3NjaGVtYS5vcmciLAogICAgICAiQHR5cGUiOiBnZXQoZGF0YS5z
+Y2hlbWEsICJzY2hlbWFUeXBlIikgfHwgIkJlYXV0eVNhbG9uIiwKICAgICAg
+bmFtZTogZ2V0KGRhdGEuc2NoZW1hLCAic2NoZW1hTmFtZSIpLAogICAgICB1
+cmw6IGdldChkYXRhLnNjaGVtYSwgInNjaGVtYVVybCIpLAogICAgICB0ZWxl
+cGhvbmU6IGdldChkYXRhLnNjaGVtYSwgInNjaGVtYVRlbGVwaG9uZSIpLAog
+ICAgICBlbWFpbDogZ2V0KGRhdGEuc2NoZW1hLCAic2NoZW1hRW1haWwiKSwK
+ICAgICAgYWRkcmVzczogewogICAgICAgICJAdHlwZSI6ICJQb3N0YWxBZGRy
+ZXNzIiwKICAgICAgICBzdHJlZXRBZGRyZXNzOiBnZXQoZGF0YS5zY2hlbWEs
+ICJzY2hlbWFTdHJlZXRBZGRyZXNzIiksCiAgICAgICAgYWRkcmVzc0xvY2Fs
+aXR5OiBnZXQoZGF0YS5zY2hlbWEsICJzY2hlbWFDaXR5IiksCiAgICAgICAg
+cG9zdGFsQ29kZTogZ2V0KGRhdGEuc2NoZW1hLCAic2NoZW1hUG9zdGFsQ29k
+ZSIpLAogICAgICAgIGFkZHJlc3NDb3VudHJ5OiBnZXQoZGF0YS5zY2hlbWEs
+ICJzY2hlbWFDb3VudHJ5IikgfHwgIkNIIiwKICAgICAgfSwKICAgICAgc2Ft
+ZUFzOiBnZXQoZGF0YS5zb2NpYWwsICJzb2NpYWxMaW5rcyIpIHx8IFtdLAog
+ICAgfSwKICAgIF9yYXc6IGRhdGEsCiAgfTsKfQo=
