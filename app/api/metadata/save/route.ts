@@ -5,8 +5,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const n8nWebhook = process.env.N8N_SAVE_WEBHOOK;
 
-    console.log("DEBUG: N8N_SAVE_WEBHOOK =", n8nWebhook ? "[SET]" : "[NOT SET]");
-    console.log("DEBUG: Full value =", n8nWebhook);
+    console.log("ALL ENV VARS:", Object.keys(process.env).filter(k => k.includes('N8N') || k.includes('WEBHOOK')));
+    console.log("N8N_SAVE_WEBHOOK value:", n8nWebhook);
+    console.log("N8N_SAVE_WEBHOOK type:", typeof n8nWebhook);
+    console.log("N8N_SAVE_WEBHOOK length:", n8nWebhook?.length);
 
     if (n8nWebhook && n8nWebhook !== "mock") {
       const response = await fetch(n8nWebhook, {
