@@ -27,7 +27,14 @@ export async function POST(request: NextRequest) {
 
     // Mock success response for development
     console.log("Mock save:", body);
-    return NextResponse.json({ success: true, mock: true });
+    return NextResponse.json({ 
+      success: true, 
+      mock: true,
+      debug: {
+        webhookSet: !!n8nWebhook,
+        webhookValue: n8nWebhook || "undefined"
+      }
+    });
   } catch (error) {
     console.error("Error saving metadata:", error);
     return NextResponse.json(
