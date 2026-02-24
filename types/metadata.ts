@@ -142,111 +142,60 @@ export const DEFAULT_SCHEMA_FIELDS: MetadataField[] = [
     type: "text",
     value: "Dermastil Kosmetikstudio Hamburg",
   },
-  {
-    id: "schemaUrl",
-    label: "Website URL",
-    type: "url",
-    value: "https://dermastil.de/",
-  },
-  {
-    id: "schemaTelephone",
-    label: "Telefon",
-    type: "text",
-    value: "+49-40-89067950",
-  },
-  {
-    id: "schemaEmail",
-    label: "E-Mail",
-    type: "email",
-    value: "",
-    placeholder: "info@dermastil.de",
-  },
-  {
-    id: "schemaStreetAddress",
-    label: "Straße",
-    type: "text",
-    value: "Ottenser Hauptstraße 17, Eingang Stangestr. 6 (3. Stock)",
-  },
-  {
-    id: "schemaPostalCode",
-    label: "PLZ",
-    type: "text",
-    value: "22765",
-  },
-  {
-    id: "schemaCity",
-    label: "Ort",
-    type: "text",
-    value: "Hamburg",
-  },
-  {
-    id: "schemaCountry",
-    label: "Land",
-    type: "select",
-    value: "DE",
-    options: ["DE", "CH", "AT"],
-  },
 ];
 
-export const AVAILABLE_FIELD_TYPES = [
-  { type: "text" as FieldType, label: "Text", icon: "Type" },
-  { type: "textarea" as FieldType, label: "Textarea", icon: "AlignLeft" },
-  { type: "url" as FieldType, label: "URL", icon: "Link" },
-  { type: "image" as FieldType, label: "Bild-URL", icon: "Image" },
-  { type: "keywords" as FieldType, label: "Keywords", icon: "Tags" },
-  { type: "boolean" as FieldType, label: "Ja/Nein", icon: "ToggleLeft" },
-  { type: "json" as FieldType, label: "JSON", icon: "Code" },
-  { type: "select" as FieldType, label: "Auswahl", icon: "List" },
-  { type: "number" as FieldType, label: "Zahl", icon: "Hash" },
-  { type: "email" as FieldType, label: "E-Mail", icon: "Mail" },
-];
+// Konvertiert Dashboard-Daten zu Next.js Metadata Format
+export function toNextJsMetadata(formData: MetadataFormData) {
+  const getValue = (id: string, fields: MetadataField[]) => 
+    fields.find((f) => f.id === id)?.value || "";
 
-export function toNextJsMetadata(data: {
-  general: MetadataField[];
-  social: MetadataField[];
-  schema: MetadataField[];
-}) {
-  const get = (fields: MetadataField[], id: string) =>
-    fields.find((f) => f.id === id)?.value;
+  const general = formData.general;
+  const social = formData.social;
+  const schema = formData.schema;
 
   return {
-    title: get(data.general, "title"),
-    description: get(data.general, "description"),
-    robots: {
-      index: true,
-      follow: true,
-    },
-    alternates: { canonical: get(data.general, "canonical") },
+    title: getValue("title", general),
+    description: getValue("description", general),
+    keywords: getValue("keywords", general),
+    robots: getValue("robots", general),
     openGraph: {
-      title: get(data.social, "ogTitle"),
-      description: get(data.social, "ogDescription"),
-      url: get(data.social, "ogUrl"),
-      siteName: get(data.social, "ogSiteName"),
-      images: get(data.social, "ogImage") ? [{ url: get(data.social, "ogImage") }] : undefined,
-      locale: get(data.general, "language") || "de-CH",
+      title: getValue("ogTitle", social),
+      description: getValue("ogDescription", social),
+      url: getValue("ogUrl", social),
+      siteName: getValue("ogSiteName", social),
+      images: getValue("ogImage", social)
+        ? [{ url: getValue("ogImage", social) }]
+        : undefined,
     },
     twitter: {
-      card: "summary_large_image",
-      title: get(data.social, "ogTitle"),
-      description: get(data.social, "ogDescription"),
-      images: get(data.social, "ogImage") ? [get(data.social, "ogImage")] : undefined,
+      card: getValue("twitterCard", social) as any,
+      title: getValue("twitterTitle", social),
+      description: getValue("twitterDescription", social),
+      images: getValue("twitterImage", social)
+        ? [getValue("twitterImage", social)]
+        : undefined,
     },
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": get(data.schema, "schemaType") || "BeautySalon",
-      name: get(data.schema, "schemaName"),
-      url: get(data.schema, "schemaUrl"),
-      telephone: get(data.schema, "schemaTelephone"),
-      email: get(data.schema, "schemaEmail"),
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: get(data.schema, "schemaStreetAddress"),
-        addressLocality: get(data.schema, "schemaCity"),
-        postalCode: get(data.schema, "schemaPostalCode"),
-        addressCountry: get(data.schema, "schemaCountry") || "CH",
+    alternates: {
+      canonical: getValue("ogUrl", social),
+    },
+    other: {
+      "json:ld": {
+        "@context": "https://schema.org",
+        "@type": "BeautySalon",
+        name: getValue("schemaName", schema),
+        telephone: getValue("schemaTelephone", schema),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: getValue("schemaStreetAddress", schema),
+          postalCode: getValue("schemaPostalCode", schema),
+          addressLocality: getValue("schemaCity", schema),
+          addressCountry: "DE",
+        },
+        sameAs: [
+          getValue("schemaFacebook", schema),
+          getValue("schemaInstagram", schema),
+        ].filter(Boolean),
       },
-      sameAs: get(data.social, "socialLinks") || [],
     },
-    _raw: data,
   };
 }
