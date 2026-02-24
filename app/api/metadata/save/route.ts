@@ -5,6 +5,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const n8nWebhook = process.env.N8N_SAVE_WEBHOOK;
 
+    console.log("DEBUG: N8N_SAVE_WEBHOOK =", n8nWebhook ? "[SET]" : "[NOT SET]");
+    console.log("DEBUG: Full value =", n8nWebhook);
+
     if (n8nWebhook && n8nWebhook !== "mock") {
       const response = await fetch(n8nWebhook, {
         method: "POST",
