@@ -1,4 +1,5 @@
 // Next.js Metadata kompatible Datenstruktur
+
 export interface SEOMetadata {
   title: string;
   description: string;
@@ -49,98 +50,182 @@ export type FieldType =
   | "number"
   | "email";
 
+// Default Felder für den Allgemein-Tab
 export const DEFAULT_GENERAL_FIELDS: MetadataField[] = [
   {
     id: "title",
     label: "Seitentitel",
     type: "text",
-    value: "Dermastil Kosmetikstudio Hamburg",
-    placeholder: "Titel der Seite",
-    helpText: "Wird im Browser-Tab und in Suchergebnissen angezeigt",
+    value: "Kosmetikstudio Hamburg | Dermastil - Ihr Experte für Hautpflege",
+    placeholder: "z.B. Kosmetikstudio Hamburg | Ihr Studio Name",
+    helpText: "Titel der Seite (erscheint im Browser-Tab und in Suchergebnissen)",
+    required: true,
   },
   {
     id: "description",
-    label: "Meta Beschreibung",
+    label: "Meta-Beschreibung",
     type: "textarea",
-    value: "Kosmetikstudio in Hamburg – Gesichtsbehandlungen, Laser & IPL Haarentfernung, Waxing, Maniküre & Pediküre, Head Spa, Wimpernlifting und Schulungen. Jetzt online Termin buchen.",
-    placeholder: "Kurze Beschreibung für Google...",
-    helpText: "Maximal 160 Zeichen empfohlen",
+    value: "Erleben Sie erstklassige Hautpflege im Dermastil Kosmetikstudio Hamburg. Professionelle Behandlungen, moderne Technik und ein erfahrenes Team erwarten Sie. Jetzt Termin vereinbaren!",
+    placeholder: "Beschreibung für Suchmaschinen...",
+    helpText: "Kurze Beschreibung für Google Suchergebnisse (max. 160 Zeichen empfohlen)",
+    maxLength: 160,
+    required: true,
   },
   {
-    id: "canonical",
-    label: "Canonical URL",
-    type: "url",
-    value: "https://dermastil.de/",
-    placeholder: "https://...",
-    helpText: "Die offizielle URL dieser Seite (für Duplicate Content)",
-  },
-  {
-    id: "language",
-    label: "Sprache",
-    type: "select",
-    value: "de-DE",
-    options: ["de-DE", "de-CH", "de-AT", "en-US", "en-GB"],
-    helpText: "Sprache der Website",
+    id: "robots",
+    label: "Robots Meta Tag",
+    type: "text",
+    value: "index, follow",
+    placeholder: "z.B. index, follow",
+    helpText: "Anweisungen für Suchmaschinen-Crawler",
   },
 ];
 
+// Default Felder für den Social Media Tab
 export const DEFAULT_SOCIAL_FIELDS: MetadataField[] = [
-  // OpenGraph - Hauptbild für alle Social Media
-  {
-    id: "ogImage",
-    label: "Social Media Bild",
-    type: "image",
-    value: "https://dermastil.de/Dermastil20200911.png",
-    helpText: "Wird auf Facebook, LinkedIn, WhatsApp, etc. angezeigt. Empfohlen: 1200 x 630 Pixel",
-  },
-  // Titel und Beschreibung
   {
     id: "ogTitle",
-    label: "Titel",
+    label: "OpenGraph Titel",
     type: "text",
-    value: "Dermastil Kosmetikstudio Hamburg",
-    placeholder: "Titel für Social Media",
-    helpText: "Wird angezeigt wenn jemand den Link teilt",
+    value: "Kosmetikstudio Hamburg | Dermastil",
+    placeholder: "Titel für Facebook/LinkedIn...",
+    helpText: "Titel der bei Facebook, LinkedIn etc. angezeigt wird",
   },
   {
     id: "ogDescription",
-    label: "Beschreibung",
+    label: "OpenGraph Beschreibung",
     type: "textarea",
-    value: "Kosmetikstudio in Hamburg – Gesichtsbehandlungen, Laser & IPL Haarentfernung, Waxing, Maniküre & Pediküre, Head Spa, Wimpernlifting und Schulungen. Jetzt online Termin buchen.",
-    placeholder: "Kurze Beschreibung...",
+    value: "Professionelle Kosmetik-Behandlungen in Hamburg. Jetzt Termin vereinbaren!",
+    placeholder: "Beschreibung für Social Media...",
+    helpText: "Beschreibung die bei Facebook, LinkedIn etc. angezeigt wird",
   },
-  // Website Info
+  {
+    id: "ogImage",
+    label: "OpenGraph Bild URL",
+    type: "url",
+    value: "https://dermastil.de/og-image.jpg",
+    placeholder: "https://...",
+    helpText: "Bild URL für Social Media Vorschau (empfohlen: 1200x630px)",
+  },
   {
     id: "ogSiteName",
-    label: "Website Name",
+    label: "OpenGraph Site Name",
     type: "text",
-    value: "Dermastil",
-    helpText: "Name der Website (erscheint unter dem Titel)",
+    value: "Dermastil Kosmetikstudio Hamburg",
+    placeholder: "Name Ihrer Website...",
+    helpText: "Name der Website für Social Media",
   },
-  // Social Profile Links - einfache Liste
+  {
+    id: "ogUrl",
+    label: "OpenGraph URL",
+    type: "url",
+    value: "https://dermastil.de",
+    placeholder: "https://...",
+    helpText: "Kanonische URL der Seite",
+  },
+  {
+    id: "twitterCard",
+    label: "Twitter Card Type",
+    type: "select",
+    value: "summary_large_image",
+    options: ["summary", "summary_large_image", "app", "player"],
+    helpText: "Typ der Twitter Card",
+  },
+  {
+    id: "twitterTitle",
+    label: "Twitter Titel",
+    type: "text",
+    value: "Kosmetikstudio Hamburg | Dermastil",
+    placeholder: "Titel für Twitter...",
+    helpText: "Titel für Twitter Vorschau",
+  },
+  {
+    id: "twitterDescription",
+    label: "Twitter Beschreibung",
+    type: "textarea",
+    value: "Professionelle Kosmetik-Behandlungen in Hamburg. Jetzt Termin vereinbaren!",
+    placeholder: "Beschreibung für Twitter...",
+    helpText: "Beschreibung für Twitter Vorschau",
+  },
+  {
+    id: "twitterImage",
+    label: "Twitter Bild URL",
+    type: "url",
+    value: "https://dermastil.de/twitter-image.jpg",
+    placeholder: "https://...",
+    helpText: "Bild URL für Twitter Vorschau (empfohlen: 1200x600px)",
+  },
   {
     id: "socialLinks",
-    label: "Social Media Profile",
+    label: "Social Media Links",
     type: "keywords",
-    value: ["https://www.facebook.com/dermastil/", "https://www.instagram.com/dermastil_kosmetik/"],
+    value: [
+      "https://facebook.com/dermastil",
+      "https://instagram.com/dermastil"
+    ],
     placeholder: "https://...",
-    helpText: "Links zu Facebook, Instagram, TikTok, LinkedIn, etc.",
+    helpText: "Links zu Ihren Social Media Profilen",
   },
 ];
 
+// Default Felder für den Schema.org Tab
 export const DEFAULT_SCHEMA_FIELDS: MetadataField[] = [
   {
-    id: "schemaType",
-    label: "Schema Type",
-    type: "select",
-    value: "BeautySalon",
-    options: ["BeautySalon", "MedicalBusiness", "LocalBusiness", "HairSalon", "NailSalon"],
-  },
-  {
     id: "schemaName",
-    label: "Business Name",
+    label: "Name des Studios",
     type: "text",
     value: "Dermastil Kosmetikstudio Hamburg",
+    placeholder: "Name Ihres Studios...",
+    helpText: "Name für Schema.org Structured Data",
+    required: true,
+  },
+  {
+    id: "schemaTelephone",
+    label: "Telefonnummer",
+    type: "text",
+    value: "+49 40 123456789",
+    placeholder: "+49 40 123456789",
+    helpText: "Telefonnummer für Schema.org (internationales Format mit +)",
+  },
+  {
+    id: "schemaStreetAddress",
+    label: "Straße und Hausnummer",
+    type: "text",
+    value: "Musterstraße 123",
+    placeholder: "z.B. Musterstraße 123",
+    helpText: "Adresse für Schema.org",
+  },
+  {
+    id: "schemaPostalCode",
+    label: "Postleitzahl",
+    type: "text",
+    value: "20095",
+    placeholder: "z.B. 20095",
+    helpText: "PLZ für Schema.org",
+  },
+  {
+    id: "schemaCity",
+    label: "Stadt",
+    type: "text",
+    value: "Hamburg",
+    placeholder: "z.B. Hamburg",
+    helpText: "Stadt für Schema.org",
+  },
+  {
+    id: "schemaFacebook",
+    label: "Facebook URL",
+    type: "url",
+    value: "https://facebook.com/dermastil",
+    placeholder: "https://facebook.com/...",
+    helpText: "Facebook Seite für Schema.org",
+  },
+  {
+    id: "schemaInstagram",
+    label: "Instagram URL",
+    type: "url",
+    value: "https://instagram.com/dermastil",
+    placeholder: "https://instagram.com/...",
+    helpText: "Instagram Profil für Schema.org",
   },
 ];
 
